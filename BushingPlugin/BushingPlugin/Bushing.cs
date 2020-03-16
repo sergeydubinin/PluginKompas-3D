@@ -248,5 +248,29 @@ namespace BushingPlugin
                 }
             }
         }
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="totalLength"></param>
+        /// <param name="topLength"></param>
+        /// <param name="topDiametr"></param>
+        /// <param name="outerDiametr"></param>
+        /// <param name="innerDiametr"></param>
+        /// <param name="numberHoles"></param>
+        /// <param name="holesDiametr"></param>
+        /// <param name="locationDiametr"></param>
+        public Bushing (double totalLength, double topLength, double topDiametr, double outerDiametr, double innerDiametr, int numberHoles, 
+            double holesDiametr, double locationDiametr)
+        {
+            TotalLength = totalLength;
+            TopLength = topLength;
+            TopDiametr = topDiametr;
+            OuterDiametr = outerDiametr;
+            InnerDiametr = innerDiametr;
+            NumberHoles = numberHoles;
+            HolesDiametr = holesDiametr;
+            LocationDiametr = locationDiametr;
+        }
     }
 }
