@@ -104,6 +104,7 @@ namespace BushingPlugin
             }
         }
 
+        
         /// <summary>
         /// Внешний диаметр втулки
         /// </summary>
@@ -132,7 +133,7 @@ namespace BushingPlugin
                 }
             }
         }
-
+        /*
         /// <summary>
         /// Внутренний диаметр втулки
         /// </summary>
@@ -248,7 +249,7 @@ namespace BushingPlugin
                 }
             }
         }
-
+        */
         /// <summary>
         /// Конструктор
         /// </summary>
@@ -260,17 +261,12 @@ namespace BushingPlugin
         /// <param name="numberHoles"></param>
         /// <param name="holesDiametr"></param>
         /// <param name="locationDiametr"></param>
-        public Bushing (double totalLength, double topLength, double topDiametr, double outerDiametr, double innerDiametr, int numberHoles, 
-            double holesDiametr, double locationDiametr)
+        public Bushing (double totalLength, double topLength, double topDiametr, double outerDiametr)
         {
             TotalLength = totalLength;
             TopLength = topLength;
             TopDiametr = topDiametr;
             OuterDiametr = outerDiametr;
-            InnerDiametr = innerDiametr;
-            NumberHoles = numberHoles;
-            HolesDiametr = holesDiametr;
-            LocationDiametr = locationDiametr;
         }
     }
 }
