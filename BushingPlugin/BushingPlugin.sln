@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BushingPluginUI", "BushingP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BushingPlugin", "BushingPlugin\BushingPlugin.csproj", "{779A28FC-1422-4F10-B01B-8D80E1ECDE79}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BushingPlugin.UnitTests", "BushingPlugin.UnitTests\BushingPlugin.UnitTests.csproj", "{815D36F2-14C5-4C51-AC11-8F9D1DDFD3ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{779A28FC-1422-4F10-B01B-8D80E1ECDE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{779A28FC-1422-4F10-B01B-8D80E1ECDE79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{779A28FC-1422-4F10-B01B-8D80E1ECDE79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{815D36F2-14C5-4C51-AC11-8F9D1DDFD3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{815D36F2-14C5-4C51-AC11-8F9D1DDFD3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{815D36F2-14C5-4C51-AC11-8F9D1DDFD3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{815D36F2-14C5-4C51-AC11-8F9D1DDFD3ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BushingPlugin
 {
+    /// <summary>
+    /// Класс, содержащий параметры втулки
+    /// </summary>
     public class Bushing
     {
         private double _totalLength;
@@ -31,12 +34,14 @@ namespace BushingPlugin
             {
                 if (value < 20)
                 {
-                    throw new ArgumentException("Длина всей втулки не может быть менее 20 мм.");
+                    throw new TotalLengthException("Значение параметра введено некорректно: " +
+                        "длина всей втулки не может быть менее 20 мм.");
                 }
 
                 else if (value > 100)
                 {
-                    throw new ArgumentException("Длина всей втулки не может быть более 100 мм.");
+                    throw new TotalLengthException("Значение параметра введено некорректно: " +
+                        "длина всей втулки не может быть более 100 мм.");
                 }
 
                 else
@@ -60,12 +65,14 @@ namespace BushingPlugin
             {
                 if (value < 5)
                 {
-                    throw new ArgumentException("Длина верхней части втулки не может быть менее 5 мм.");
+                    throw new TopLengthException("Значение параметра введено некорректно: " +
+                        "длина верхней части втулки не может быть менее 5 мм.");
                 }
 
                 else if (value > (TotalLength / 2))
                 {
-                    throw new ArgumentException("Длина верхней части втулки не может быть более 1/2 длины всей втулки мм.");
+                    throw new TopLengthException("Значение параметра введено некорректно: " +
+                        "длина верхней части втулки не может быть более 1/2 длины всей втулки мм.");
                 }
 
                 else
@@ -89,12 +96,14 @@ namespace BushingPlugin
             {
                 if (value < 55)
                 {
-                    throw new ArgumentException("Диамтер верхней части втулки не может быть менее 55 мм.");
+                    throw new TopDiametrException("Значение параметра введено некорректно: " +
+                        "диамтер верхней части втулки не может быть менее 55 мм.");
                 }
 
                 else if (value > 120)
                 {
-                    throw new ArgumentException("Диамтер верхней части втулки не может быть более 120 мм.");
+                    throw new TopDiametrException("Значение параметра введено некорректно: " +
+                        "диамтер верхней части втулки не может быть более 120 мм.");
                 }
                 
                 else
@@ -119,12 +128,14 @@ namespace BushingPlugin
             {
                 if (value < 35)
                 {
-                    throw new ArgumentException("Наружный диамтер втулки не может быть менее 35 мм.");
+                    throw new OuterDiametrException("Значение параметра введено некорректно: " +
+                        "внешний диамтер втулки не может быть менее 35 мм.");
                 }
 
-                else if (value < ((2/3)*(TopDiametr)))
+                else if (value > ((2*(TopDiametr))/3))
                 {
-                    throw new ArgumentException("Наружный диамтер втулки не может быть более 2/3 диаметра верхней части втулки мм.");
+                    throw new OuterDiametrException("Значение параметра введено некорректно: " +
+                        "внешний диамтер втулки не может быть более 2/3 диаметра верхней части втулки мм.");
                 }
 
                 else
@@ -133,7 +144,7 @@ namespace BushingPlugin
                 }
             }
         }
-        /*
+        
         /// <summary>
         /// Внутренний диаметр втулки
         /// </summary>
@@ -148,12 +159,14 @@ namespace BushingPlugin
             {
                 if (value < 20)
                 {
-                    throw new ArgumentException("Внутренний диамтер втулки не может быть менее 20 мм.");
+                    throw new InnerDiametrException("Значение параметра введено некорректно: " +
+                        "внутренний диамтер втулки не может быть менее 20 мм.");
                 }
 
-                else if (value > ((2 / 3) * (OuterDiametr)))
+                else if (value > ((2 * (OuterDiametr)) / 3))
                 {
-                    throw new ArgumentException("Внутренний диамтер втулки не может быть более 2/3 наружного диаметра втулки мм.");
+                    throw new InnerDiametrException("Значение параметра введено некорректно: " +
+                        "внутренний диамтер втулки не может быть более 2/3 внешнего диаметра втулки мм.");
                 }
 
                 else
@@ -162,7 +175,7 @@ namespace BushingPlugin
                 }
             }
         }
-
+        
         /// <summary>
         /// Количество отверстий
         /// </summary>
@@ -177,12 +190,14 @@ namespace BushingPlugin
             {
                 if (value < 2)
                 {
-                    throw new ArgumentException("Количество отверстий не может быть менее 2 шт.");
+                    throw new NumberHolesException("Значение параметра введено некорректно: " +
+                        "количество отверстий не может быть менее 2 шт.");
                 }
 
                 else if (value > 6)
                 {
-                    throw new ArgumentException("Количество отверстий не может быть более 6 шт.");
+                    throw new NumberHolesException("Значение параметра введено некорректно: " +
+                        "количество отверстий не может быть более 6 шт.");
                 }
 
                 else
@@ -206,12 +221,14 @@ namespace BushingPlugin
             {
                 if (value < 4)
                 {
-                    throw new ArgumentException("Диамтер отверстий не может быть менее 4 мм.");
+                    throw new HolesDiametrException("Значение параметра введено некорректно: " +
+                        "диамтер отверстий не может быть менее 4 мм.");
                 }
 
-                else if (value > ((1 / 5) * (InnerDiametr)))
+                else if (value > ((InnerDiametr) / 4))
                 {
-                    throw new ArgumentException("Диамтер отверстий не может быть более 1/5 внутреннего диаметра втулки мм.");
+                    throw new HolesDiametrException("Значение параметра введено некорректно: " +
+                        "диамтер отверстий не может быть более 1/4 внутреннего диаметра втулки мм.");
                 }
 
                 else
@@ -233,23 +250,25 @@ namespace BushingPlugin
 
             set
             {
-                if (value < ((1 / 2) * (TopDiametr)))
+                if (value < ((3*(TopDiametr)) / 4))
                 {
-                    throw new ArgumentException("Диамтер расположения отверстий не может быть менее 1/2 диаметра верхней части втулки мм.");
+                    throw new LocationDiametrException("Значение параметра введено некорректно: " +
+                        "диамтер расположения отверстий не может быть менее 3/4 диаметра верхней части втулки мм.");
                 }
-
-                else if (value > ((4 / 5) * (TopDiametr)))
+                
+                else if (value > ((4 * (TopDiametr)) / 5))
                 {
-                    throw new ArgumentException("Диамтер расположения отверстий не может быть более 4/5 диаметра верхней части втулки мм.");
+                    throw new LocationDiametrException("Значение параметра введено некорректно: " +
+                        "диамтер расположения отверстий не может быть более 4/5 диаметра верхней части втулки мм.");
                 }
-
+             
                 else
                 {
                     _locationDiametr = value;
                 }
             }
         }
-        */
+        
         /// <summary>
         /// Конструктор
         /// </summary>
@@ -261,12 +280,17 @@ namespace BushingPlugin
         /// <param name="numberHoles"></param>
         /// <param name="holesDiametr"></param>
         /// <param name="locationDiametr"></param>
-        public Bushing (double totalLength, double topLength, double topDiametr, double outerDiametr)
+        public Bushing (double totalLength, double topLength, double topDiametr, double outerDiametr, double innerDiametr, 
+            int numberHoles, double holesDiametr, double locationDiametr)
         {
             TotalLength = totalLength;
             TopLength = topLength;
             TopDiametr = topDiametr;
             OuterDiametr = outerDiametr;
+            InnerDiametr = innerDiametr;
+            NumberHoles = numberHoles;
+            HolesDiametr = holesDiametr;
+            LocationDiametr = locationDiametr;
         }
     }
 }

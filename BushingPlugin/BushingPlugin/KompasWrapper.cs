@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Kompas6API5;
 using Kompas6Constants;
 using Kompas6Constants3D;
+using System.Runtime.InteropServices;
 
 namespace BushingPlugin
 {
@@ -20,31 +21,43 @@ namespace BushingPlugin
         private KompasObject _kompas = null;
 
         /// <summary>
-        /// Запуск Компас-3D, если он не запущен
+        /// Запуск Компас-3D
         /// </summary>
         public void StartKompas()
         {
             try
             {
-                if (_kompas == null)
-                {
-                    Type kompasType = Type.GetTypeFromProgID("KOMPAS.Application.5");
-                    _kompas = (KompasObject)Activator.CreateInstance(kompasType);
-                }
-
                 if (_kompas != null)
                 {
                     _kompas.Visible = true;
                     _kompas.ActivateControllerAPI();
                 }
+
+                if (_kompas == null)
+                {
+                    Type kompasType = Type.GetTypeFromProgID("KOMPAS.Application.5");
+                    _kompas = (KompasObject)Activator.CreateInstance(kompasType);
+
+                    StartKompas();
+
+                    if (_kompas == null)
+                    {
+                        throw new Exception("Не удается открыть Koмпас-3D");
+                    }
+                }
             }
-            catch
+            catch (COMException)
             {
-                throw new ArgumentException("Не удается открыть Компас-3D");
+                _kompas = null;
+                StartKompas();
             }
         }
 
 
+        /// <summary>
+        /// Построение втулки
+        /// </summary>
+        /// <param name="bushing"></param>
         public void BuildBushing(Bushing bushing)
         {
             try
