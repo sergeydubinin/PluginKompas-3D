@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BushingPlugin
 {
@@ -34,12 +35,17 @@ namespace BushingPlugin
             {
                 if (value < 20)
                 {
+                    _listError.Add(ParametersType.TotalLength, "Значение параметра введено некорректно: " +
+                        "длина всей втулки не может быть менее 20 мм.");
                     throw new TotalLengthException("Значение параметра введено некорректно: " +
                         "длина всей втулки не может быть менее 20 мм.");
+                                        
                 }
 
                 else if (value > 100)
                 {
+                    _listError.Add(ParametersType.TotalLength, "Значение параметра введено некорректно: " +
+                        "длина всей втулки не может быть более 100 мм.");
                     throw new TotalLengthException("Значение параметра введено некорректно: " +
                         "длина всей втулки не может быть более 100 мм.");
                 }
@@ -65,12 +71,19 @@ namespace BushingPlugin
             {
                 if (value < 5)
                 {
+                    
+                    var messageError = "";
+                    _listError.Add(ParametersType.TopLength, "Значение параметра введено некорректно: " +
+                        "длина верхней части втулки не может быть менее 5 мм.");
                     throw new TopLengthException("Значение параметра введено некорректно: " +
                         "длина верхней части втулки не может быть менее 5 мм.");
+                    
                 }
 
                 else if (value > (TotalLength / 2))
                 {
+                    _listError.Add(ParametersType.TopLength, "Значение параметра введено некорректно: " +
+                        "длина верхней части втулки не может быть более 1/2 длины всей втулки мм.");
                     throw new TopLengthException("Значение параметра введено некорректно: " +
                         "длина верхней части втулки не может быть более 1/2 длины всей втулки мм.");
                 }
@@ -96,12 +109,14 @@ namespace BushingPlugin
             {
                 if (value < 55)
                 {
+                    
                     throw new TopDiametrException("Значение параметра введено некорректно: " +
                         "диамтер верхней части втулки не может быть менее 55 мм.");
                 }
 
                 else if (value > 120)
                 {
+
                     throw new TopDiametrException("Значение параметра введено некорректно: " +
                         "диамтер верхней части втулки не может быть более 120 мм.");
                 }
@@ -226,7 +241,7 @@ namespace BushingPlugin
                 }
 
                 else if (value > ((InnerDiametr) / 4))
-                {
+                {                    
                     throw new HolesDiametrException("Значение параметра введено некорректно: " +
                         "диамтер отверстий не может быть более 1/4 внутреннего диаметра втулки мм.");
                 }
@@ -282,7 +297,9 @@ namespace BushingPlugin
         /// <param name="locationDiametr"></param>
         public Bushing (double totalLength, double topLength, double topDiametr, double outerDiametr, double innerDiametr, 
             int numberHoles, double holesDiametr, double locationDiametr)
-        {
+        {            
+            _listError.Clear();
+
             TotalLength = totalLength;
             TopLength = topLength;
             TopDiametr = topDiametr;
@@ -292,5 +309,7 @@ namespace BushingPlugin
             HolesDiametr = holesDiametr;
             LocationDiametr = locationDiametr;
         }
+
+        public Dictionary<ParametersType, string> _listError;
     }
 }

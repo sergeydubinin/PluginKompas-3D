@@ -21,12 +21,23 @@ namespace BushingPluginUI
         /// </summary>
         private KompasWrapper _kompasWrapper;
 
+        private Dictionary<ParametersType, TextBox> _dic;
+
         /// <summary>
         /// Главная форма
         /// </summary>
         public MainForm()
         {
             InitializeComponent();
+            _dic = new Dictionary<ParametersType, TextBox>();
+            _dic.Clear();
+
+            _dic.Add(ParametersType.TopLength, TopLengthTextBox);
+            _dic.Add(ParametersType.TopDiametr, TopDiametrTextBox);
+            _dic.Add(ParametersType.HolesDiametr, HolesDiametrTextBox);
+            _dic.Add(ParametersType.TotalLength, TotalLengthTextBox);
+
+
             _kompasWrapper = new KompasWrapper();
             TotalLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
             TopLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
@@ -36,8 +47,17 @@ namespace BushingPluginUI
             NumberHolesTextBox.KeyPress += new KeyPressEventHandler(IsNumberPressed);
             HolesDiametrTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
             LocationDiametrTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-        }
+        }        
 
+        private void MethodShowError(Dictionary<ParametersType,string> listError)
+        {
+            foreach (KeyValuePair<ParametersType, string> keyValue in listError)
+            {
+                if (_dic.TryGetValue(keyValue.Key, out TextBox textBox)){
+                    ShowErrorMessage(textBox, keyValue.Value);
+                }                
+            }
+        }
         /// <summary>
         /// Обработчик кнопки "Построить деталь"
         /// </summary>
@@ -46,8 +66,7 @@ namespace BushingPluginUI
         private void BuildButton_Click(object sender, EventArgs e)
         {
             Bushing bushing = null;
-            try
-            {
+
                 double newTotalLength = double.Parse(TotalLengthTextBox.Text);
                 double newTopLength = double.Parse(TopLengthTextBox.Text);
                 double newTopDiametr = double.Parse(TopDiametrTextBox.Text);
@@ -56,46 +75,44 @@ namespace BushingPluginUI
                 int newNumberHoles = int.Parse(NumberHolesTextBox.Text);
                 double newHolesDiametr = double.Parse(HolesDiametrTextBox.Text);
                 double newLocationDiametr = double.Parse(LocationDiametrTextBox.Text);
+
                 bushing = new Bushing(newTotalLength, newTopLength, newTopDiametr, newOuterDiametr, newInnerDiametr, newNumberHoles,
                     newHolesDiametr, newLocationDiametr);
-            }
-            catch (TotalLengthException exception)
+            //catch (TopDiametrException exception)
+            //{
+            //    ShowErrorMessage(TopDiametrTextBox, exception.Message);
+            //}
+            //catch (OuterDiametrException exception)
+            //{
+            //    ShowErrorMessage(OuterDiametrTextBox, exception.Message);
+            //}
+            //catch (InnerDiametrException exception)
+            //{
+            //    ShowErrorMessage(InnerDiametrTextBox, exception.Message);
+            //}
+            //catch (NumberHolesException exception)
+            //{
+            //    ShowErrorMessage(NumberHolesTextBox, exception.Message);
+            //}
+            //catch (HolesDiametrException exception)
+            //{
+            //    ShowErrorMessage(HolesDiametrTextBox, exception.Message);
+            //}
+            //catch (LocationDiametrException exception)
+            //{
+            //    ShowErrorMessage(LocationDiametrTextBox, exception.Message);
+            //}
+            if (bushing._listError.Count > 0)
             {
-                ShowErrorMessage(TotalLengthTextBox, exception.Message);
+                MethodShowError(bushing._listError);
             }
-            catch (TopLengthException exception)
+            else
             {
-                ShowErrorMessage(TopLengthTextBox, exception.Message);
-            }
-            catch (TopDiametrException exception)
-            {
-                ShowErrorMessage(TopDiametrTextBox, exception.Message);
-            }
-            catch (OuterDiametrException exception)
-            {
-                ShowErrorMessage(OuterDiametrTextBox, exception.Message);
-            }
-            catch (InnerDiametrException exception)
-            {
-                ShowErrorMessage(InnerDiametrTextBox, exception.Message);
-            }
-            catch (NumberHolesException exception)
-            {
-                ShowErrorMessage(NumberHolesTextBox, exception.Message);
-            }
-            catch (HolesDiametrException exception)
-            {
-                ShowErrorMessage(HolesDiametrTextBox, exception.Message);
-            }
-            catch (LocationDiametrException exception)
-            {
-                ShowErrorMessage(LocationDiametrTextBox, exception.Message);
-            }
-
-            if (bushing != null)
-            {
-                _kompasWrapper.StartKompas();
-                _kompasWrapper.BuildBushing(bushing);
+                if (bushing != null)
+                {
+                    _kompasWrapper.StartKompas();
+                    _kompasWrapper.BuildBushing(bushing);
+                }
             }
         }
 
