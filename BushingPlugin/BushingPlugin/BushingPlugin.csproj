@@ -45,15 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bushing.cs" />
-    <Compile Include="HolesDiametrException.cs" />
-    <Compile Include="InnerDiametrException.cs" />
-    <Compile Include="LocationDiametrException.cs" />
-    <Compile Include="NumberHolesException.cs" />
-    <Compile Include="OuterDiametrException.cs" />
     <Compile Include="ParametersType.cs" />
-    <Compile Include="TopDiametrException.cs" />
-    <Compile Include="TopLengthException.cs" />
-    <Compile Include="TotalLengthException.cs" />
     <Compile Include="CreateBushing.cs" />
     <Compile Include="KompasWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

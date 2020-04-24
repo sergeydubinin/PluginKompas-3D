@@ -323,6 +323,9 @@
             this.ClientSize = new System.Drawing.Size(475, 353);
             this.Controls.Add(this.BuildButton);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximumSize = new System.Drawing.Size(493, 400);
+            this.MinimumSize = new System.Drawing.Size(493, 400);
             this.Name = "MainForm";
             this.Text = "Втулка амортизаторная";
             this.groupBox1.ResumeLayout(false);
