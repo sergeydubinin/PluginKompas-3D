@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace BushingPlugin
+namespace BushingParametrs
 {
     /// <summary>
     /// Класс, содержащий параметры втулки
@@ -258,8 +257,8 @@ namespace BushingPlugin
         }
 
         /// <summary>
-        /// Словарь, хранящий в себе список выявленных ошибок
-        /// при некорректном вводе параметеров втулки
+        /// Словарь, связывающий параметр втулки и возникшую
+        /// ошибку при вводе данного параметра
         /// </summary>
         public Dictionary<ParametersType, string> _listError;
     }

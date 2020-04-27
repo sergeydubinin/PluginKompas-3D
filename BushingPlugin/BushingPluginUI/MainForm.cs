@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BushingPlugin;
+using BushingParametrs;
 
 namespace BushingPluginUI
 {
@@ -22,10 +23,9 @@ namespace BushingPluginUI
         private KompasWrapper _kompasWrapper;
 
         /// <summary>
-        /// Словарь, хранящий список textbox-ов, в которых
-        /// введены некорректные параметры
+        /// Словарь, cвязывающий параметр втулки и соотвествующий ему textbox
         /// </summary>
-        private Dictionary<ParametersType, TextBox> _listErrorsInTextBox;
+        private Dictionary<ParametersType, TextBox> _bindTextBoxToParametr;
 
         /// <summary>
         /// Главная форма
@@ -35,16 +35,16 @@ namespace BushingPluginUI
             InitializeComponent();
             _kompasWrapper = new KompasWrapper();
 
-            _listErrorsInTextBox = new Dictionary<ParametersType, TextBox>();
-            _listErrorsInTextBox.Clear();
-            _listErrorsInTextBox.Add(ParametersType.TotalLength, TotalLengthTextBox);
-            _listErrorsInTextBox.Add(ParametersType.TopLength, TopLengthTextBox);
-            _listErrorsInTextBox.Add(ParametersType.TopDiametr, TopDiametrTextBox);
-            _listErrorsInTextBox.Add(ParametersType.OuterDiametr, OuterDiametrTextBox);
-            _listErrorsInTextBox.Add(ParametersType.InnerDiametr, InnerDiametrTextBox);
-            _listErrorsInTextBox.Add(ParametersType.NumberHoles, NumberHolesTextBox);
-            _listErrorsInTextBox.Add(ParametersType.HolesDiametr, HolesDiametrTextBox);
-            _listErrorsInTextBox.Add(ParametersType.LocationDiametr, LocationDiametrTextBox);
+            _bindTextBoxToParametr = new Dictionary<ParametersType, TextBox>();
+            _bindTextBoxToParametr.Clear();
+            _bindTextBoxToParametr.Add(ParametersType.TotalLength, TotalLengthTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.TopLength, TopLengthTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.TopDiametr, TopDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.OuterDiametr, OuterDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.InnerDiametr, InnerDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.NumberHoles, NumberHolesTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.HolesDiametr, HolesDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.LocationDiametr, LocationDiametrTextBox);
 
             TotalLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
             TopLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
@@ -56,26 +56,6 @@ namespace BushingPluginUI
             LocationDiametrTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
         }
 
-        /// <summary>
-        /// Метод, выводящий ошибку на экран и подсвечивающий textbox, связанный
-        /// с данной ошибкой
-        /// </summary>
-        /// <param name="listError"></param>
-        private void MethodShowError(Dictionary<ParametersType, string> listError)
-        {
-            string message = "";
-            foreach (KeyValuePair<ParametersType, string> keyValue in listError)
-            {
-                
-                if (_listErrorsInTextBox.TryGetValue(keyValue.Key, out TextBox textBox))
-                {
-                    textBox.BackColor = Color.LightSalmon;
-                    message += "*" + keyValue.Value + "\n" + "\n";
-                }
-                
-            }
-            MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
         /// <summary>
         /// Обработчик кнопки "Построить деталь"
         /// </summary>
@@ -99,7 +79,7 @@ namespace BushingPluginUI
 
             if (bushing._listError.Count > 0)
             {
-                MethodShowError(bushing._listError);
+                ShowError(bushing._listError);
             }
             else
             {               
@@ -120,7 +100,7 @@ namespace BushingPluginUI
                 || textbox.Text == ".")
             {
                 textbox.BackColor = Color.LightSalmon;
-                ShowErrorMessage(textbox, "Ошибка в значении параметра!");
+                MessageBox.Show("Ошибка в значении параметра!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 textbox.Focus();
             }
         }
@@ -159,17 +139,6 @@ namespace BushingPluginUI
         }
 
         /// <summary>
-        /// Вывод сообщения об ошибке и подсветка соответствующего textbox
-        /// </summary>
-        /// <param name="textBox"></param>
-        /// <param name="message"></param>
-        private void ShowErrorMessage(TextBox textBox, string message)
-        {
-            textBox.BackColor = Color.LightSalmon;
-            MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        /// <summary>
         /// Возврат исходного цвета textbox
         /// </summary>
         /// <param name="sender"></param>
@@ -178,6 +147,27 @@ namespace BushingPluginUI
         {
             TextBox textBox = (TextBox)sender;
             textBox.BackColor = Color.White;
+        }
+
+        /// <summary>
+        /// Метод, выводящий ошибку на экран и подсвечивающий textbox, связанный
+        /// с данной ошибкой
+        /// </summary>
+        /// <param name="listError"></param>
+        private void ShowError(Dictionary<ParametersType, string> listError)
+        {
+            string message = "";
+            foreach (KeyValuePair<ParametersType, string> keyValue in listError)
+            {
+
+                if (_bindTextBoxToParametr.TryGetValue(keyValue.Key, out TextBox textBox))
+                {
+                    textBox.BackColor = Color.LightSalmon;
+                    message += "*" + keyValue.Value + "\n" + "\n";
+                }
+
+            }
+            MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

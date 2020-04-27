@@ -1,5 +1,5 @@
 ﻿using System;
-using BushingPlugin;
+using BushingParametrs;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -8,7 +8,7 @@ namespace BushingPlugin.UnitTests
     [TestFixture]
     public class BushingPluginTest
     {
-        [TestCase(TestName = "Негативный: Длина всей втулки менее 20 мм.")] /////////////
+        [TestCase(TestName = "Негативный: Длина всей втулки менее 20 мм.")]
         public void SetTotalLengthLess_NegativeTest()
         {
             Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
@@ -18,7 +18,7 @@ namespace BushingPlugin.UnitTests
             Assert.AreEqual(bushing._listError, listError);
         }
 
-        [TestCase(TestName = "Негативный: Длина всей втулки более 100 мм.")] /////////////////
+        [TestCase(TestName = "Негативный: Длина всей втулки более 100 мм.")]
         public void SetTotalLengthMore_NegativeTest()
         {
             Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
@@ -48,7 +48,7 @@ namespace BushingPlugin.UnitTests
             Assert.AreEqual(bushing._listError, listError);
         }
 
-        [TestCase(TestName = "Негативный: Диамтер верхней части втулки менее 55 мм.")] ////////////////
+        [TestCase(TestName = "Негативный: Диамтер верхней части втулки менее 55 мм.")]
         public void SetTopDiametrLess_NegativeTest()
         {
             Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
@@ -58,7 +58,7 @@ namespace BushingPlugin.UnitTests
             Assert.AreEqual(bushing._listError, listError);
         }
 
-        [TestCase(TestName = "Негативный: Диамтер верхней части втулки быть более 120 мм.")] /////////////////
+        [TestCase(TestName = "Негативный: Диамтер верхней части втулки быть более 120 мм.")]
         public void SetTopDiametrMore_NegativeTest()
         {
             Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
@@ -68,7 +68,7 @@ namespace BushingPlugin.UnitTests
             Assert.AreEqual(bushing._listError, listError);
         }
 
-        [TestCase(TestName = "Негативный: Внешний диамтер втулки менее 35 мм.")] ////////////////////
+        [TestCase(TestName = "Негативный: Внешний диамтер втулки менее 35 мм.")]
         public void SetOuterDiametrLess_NegativeTest()
         {
             Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
@@ -78,7 +78,7 @@ namespace BushingPlugin.UnitTests
             Assert.AreEqual(bushing._listError, listError);
         }
 
-        [TestCase(TestName = "Негативный: Внешний диамтер втулки более 2/3 диаметра верхней части втулки мм.")] //////////////
+        [TestCase(TestName = "Негативный: Внешний диамтер втулки более 2/3 диаметра верхней части втулки мм.")]
         public void SetOuterDiametrMore_NegativeTest()
         {
             Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
@@ -88,7 +88,7 @@ namespace BushingPlugin.UnitTests
             Assert.AreEqual(bushing._listError, listError);
         }
 
-        [TestCase(TestName = "Негативный: Внутренний диамтер втулки менее 20 мм.")] /////////////////
+        [TestCase(TestName = "Негативный: Внутренний диамтер втулки менее 20 мм.")]
         public void SetInnerDiametrLess_NegativeTest()
         {
             Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
@@ -98,7 +98,7 @@ namespace BushingPlugin.UnitTests
             Assert.AreEqual(bushing._listError, listError);
         }
 
-        [TestCase(TestName = "Негативный: Внутренний диамтер втулки более 2/3 внешнего диаметра втулки мм.")] //////////////////
+        [TestCase(TestName = "Негативный: Внутренний диамтер втулки более 2/3 внешнего диаметра втулки мм.")]
         public void SetInnerDiametrMore_NegativeTest()
         {
             Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
@@ -230,28 +230,6 @@ namespace BushingPlugin.UnitTests
         {
             Bushing bushing = new Bushing(20, 5, 55, 35, 20, 2, 4, 44);
             Assert.AreEqual(value, bushing.LocationDiametr);
-        }
-
-        [TestCase(100, 50, 120, 80, 53.3, 6, 13.3, 96,
-            TestName = "Позитивный: Максимальные значения параметров втулки")]
-        [TestCase(20, 5, 55, 35, 20, 2, 4, 44,
-            TestName = "Позитивный: Минимальные значения параметров втулки")]
-        [TestCase(50, 15, 80, 45, 25, 4, 5.5, 62,
-            TestName = "Позитивный: Средние значения параметров втулки")]
-        public void TestPositiveBushingConstructor(double totalLength, double topLength,
-            double topDiametr, double outerDiametr, double innerDiametr,
-            int numberHoles, double holesDiametr, double locationDiametr)
-        {
-            Bushing bushing = new Bushing(totalLength, topLength, topDiametr, outerDiametr, innerDiametr,
-                    numberHoles, holesDiametr, locationDiametr);
-            Assert.AreEqual(bushing.TotalLength, totalLength);
-            Assert.AreEqual(bushing.TopLength, topLength);
-            Assert.AreEqual(bushing.TopDiametr, topDiametr);
-            Assert.AreEqual(bushing.OuterDiametr, outerDiametr);
-            Assert.AreEqual(bushing.InnerDiametr, innerDiametr);
-            Assert.AreEqual(bushing.NumberHoles, numberHoles);
-            Assert.AreEqual(bushing.HolesDiametr, holesDiametr);
-            Assert.AreEqual(bushing.LocationDiametr, locationDiametr);
         }
     }
 }

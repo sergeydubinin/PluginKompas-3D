@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BushingParametrs;
 using Kompas6API5;
 using Kompas6Constants;
 using Kompas6Constants3D;
 
 namespace BushingPlugin
 {
+    /// <summary>
+    /// Класс, предназначенный для поэтапного
+    /// создания втулки
+    /// </summary>
     public class CreateBushing
     {
         /// <summary>
@@ -58,9 +63,7 @@ namespace BushingPlugin
         {
             var document = (ksDocument3D)_kompas.ActiveDocument3D();
             var part = (ksPart)document.GetPart((short)Part_Type.pTop_Part);
-            // Создаем эскиз окружности
             ksEntity entitySketch = DrawCircle(part, radius);
-            // Выдавливаем по созданному эскизу
             ExtrudeSketch(part, entitySketch, height, false);
         }
 
@@ -73,9 +76,7 @@ namespace BushingPlugin
         {
             var document = (ksDocument3D)_kompas.ActiveDocument3D();
             var part = (ksPart)document.GetPart((short)Part_Type.pTop_Part);
-            // Создаем эскиз окружности
             ksEntity entitySketch = DrawCircle(part, radius);
-            // Выдавливаем по созданному эскизу
             ExtrudeSketch(part, entitySketch, height, true);
         }
 
@@ -89,24 +90,13 @@ namespace BushingPlugin
         {
             var document = (ksDocument3D)_kompas.ActiveDocument3D();
             var part = (ksPart)document.GetPart((short)Part_Type.pTop_Part);
-            // Создаем эскиз окружности
             ksEntity entitySketch = DrawCircle(part, radius);
-            // Создаем переменую вырезания выдавливанием
             ksEntity entityCutExtrusion = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
-            // Интерфейс свойств операции вырезания выдавливанием
             ksCutExtrusionDefinition cutExtrusionDefinition = (ksCutExtrusionDefinition)entityCutExtrusion.GetDefinition();
-            // Устанавливаем тип направления вырезания выдавливанием
             cutExtrusionDefinition.directionType = (short)Direction_Type.dtBoth;
-            // Устанавливаем параметры вырезания выдавливанием
-            cutExtrusionDefinition.SetSideParam(true, // Прямое направление
-                                    (short)End_Type.etBlind,
-                                    topHeight);    // Строго на глубину
-            cutExtrusionDefinition.SetSideParam(false, // Обратное направление
-                                    (short)End_Type.etBlind,
-                                    bottomHeight); //Строго на глубину
-            // Эскиз операции вырезания выдавливанием
+            cutExtrusionDefinition.SetSideParam(true, (short)End_Type.etBlind, topHeight);
+            cutExtrusionDefinition.SetSideParam(false, (short)End_Type.etBlind, bottomHeight);
             cutExtrusionDefinition.SetSketch(entitySketch);
-            // Создаем операцию вырезания выдавливанием
             entityCutExtrusion.Create();
         }
 
@@ -121,54 +111,36 @@ namespace BushingPlugin
         {
             var document = (ksDocument3D)_kompas.ActiveDocument3D();
             var part = (ksPart)document.GetPart((short)Part_Type.pTop_Part);
-            // Создаем новый эскиз
+            const int xc = 0;
+            const int yc = 0;
+            const int styleLineBase = 1;
+            const int styleLineAuxiliary = 6;
+            const int stepCopy = 360;
+
             ksEntity entitySketch = (ksEntity)part.NewEntity((short)Obj3dType.o3d_sketch);
-            // Интерфейс свойств эскиза
             ksSketchDefinition sketchDefinition = (ksSketchDefinition)entitySketch.GetDefinition();
-            // Получаем интерфейс базовой плоскости
             ksEntity basePlane = (ksEntity)part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
-            // Устанавливаем плоскость базовой для эскиза
             sketchDefinition.SetPlane(basePlane);
-            // Создаем эскиз
             entitySketch.Create();
-            // Интерфейс редактора эскиза
             ksDocument2D sketchEdit = (ksDocument2D)sketchDefinition.BeginEdit();
-            // Рисуем вспомогательную окружность
-            sketchEdit.ksCircle(0, 0, coordinate, 6);
-            // Рисуем основную окружность с центром в заданной координате
-            sketchEdit.ksCircle(coordinate, 0, radius, 1);
-            // Завершаем редактирование эскиза
+            sketchEdit.ksCircle(xc, yc, coordinate, styleLineAuxiliary);
+            sketchEdit.ksCircle(coordinate, yc, radius, styleLineBase);
             sketchDefinition.EndEdit();
 
-            // Создаем переменую вырезания выдавливанием
             ksEntity entityCutExtrusion = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
-            // Интерфейс свойств операции вырезания выдавливанием
             ksCutExtrusionDefinition cutExtrusionDefinition = (ksCutExtrusionDefinition)entityCutExtrusion.GetDefinition();
-            // Устанавливаем тип направления вырезания выдавливанием
             cutExtrusionDefinition.directionType = (short)Direction_Type.dtNormal;
-            // Устанавливаем параметры вырезания выдавливанием
-            cutExtrusionDefinition.SetSideParam(true, // Прямое направление
-                                    (short)End_Type.etBlind,
-                                    height); // Строго на глубину
-            // Эскиз операции вырезания выдавливанием
+            cutExtrusionDefinition.SetSideParam(true, (short)End_Type.etBlind, height);
             cutExtrusionDefinition.SetSketch(entitySketch);
-            // Создаем операцию вырезания выдавливанием
             entityCutExtrusion.Create();
 
-            // Создаем переменную копирования по концентрическрй сетке
             ksEntity circularCopyEntity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_circularCopy);
-            // Интерфейс свойств операции копирования по концентрической сетке
             ksCircularCopyDefinition circularCopyDefinition = (ksCircularCopyDefinition)circularCopyEntity.GetDefinition();
-            // Устанавливаем параметры копирования
-            circularCopyDefinition.SetCopyParamAlongDir(count, 360.0, true, false);
-            // Получаем интерфейс оси копирования
+            circularCopyDefinition.SetCopyParamAlongDir(count, stepCopy, true, false);
             ksEntity baseAxisOZ = (ksEntity)part.GetDefaultEntity((short)Obj3dType.o3d_axisOZ);
-            // Устанавливаем ось копирования
             circularCopyDefinition.SetAxis(baseAxisOZ);
-            // Интерфейс массива объектов модели
             ksEntityCollection entityCollection = (ksEntityCollection)circularCopyDefinition.GetOperationArray();
             entityCollection.Add(cutExtrusionDefinition);
-            // Создаем операцию копирования по концентрической сетке
             circularCopyEntity.Create();
         }
 
@@ -180,21 +152,17 @@ namespace BushingPlugin
         /// <returns></returns>
         private ksEntity DrawCircle(ksPart part, double radius)
         {
-            // Создаем новый эскиз
+            const int xc = 0;
+            const int yc = 0;
+            const int styleLine = 1;
+
             ksEntity entitySketch = (ksEntity)part.NewEntity((short)Obj3dType.o3d_sketch);
-            // Интерфейс свойств эскиза
             ksSketchDefinition sketchDefinition = (ksSketchDefinition)entitySketch.GetDefinition();
-            // Получаем интерфейс базовой плоскости
             ksEntity basePlane = (ksEntity)part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
-            // Устанавливаем плоскость базовой для эскиза
             sketchDefinition.SetPlane(basePlane);
-            // Создаем эскиз
             entitySketch.Create();
-            // Интерфейс редактора эскиза
             ksDocument2D sketchEdit = (ksDocument2D)sketchDefinition.BeginEdit();
-            // Рисуем окружность по заданному радиусу
-            sketchEdit.ksCircle(0, 0, radius, 1);
-            // Завершаем редактирование эскиза
+            sketchEdit.ksCircle(xc, yc, radius, styleLine);
             sketchDefinition.EndEdit();
 
             return entitySketch;
@@ -209,31 +177,19 @@ namespace BushingPlugin
         /// <param name="type"></param>
         private void ExtrudeSketch(ksPart part, ksEntity sketch, double height, bool type)
         {
-            // Создаем переменную выдавливания
             ksEntity entityExtrusion = (ksEntity)part.NewEntity((short)Obj3dType.o3d_baseExtrusion);
-            // Интерфейс свойств базовой операции выдавливания
             ksBaseExtrusionDefinition extrusionDefinition = (ksBaseExtrusionDefinition)entityExtrusion.GetDefinition();
             if (type == false)
             {
-                // Устанавливаем тип направления выдавливания
-                extrusionDefinition.directionType = (short)Direction_Type.dtReverse; //Обратное направление
-                // Устанавливаем параметры выдавливания
-                extrusionDefinition.SetSideParam(false, // Обратное направление
-                                          (short)End_Type.etBlind, // Строго на глубину
-                                          height); // Расстояние выдавливания
+                extrusionDefinition.directionType = (short)Direction_Type.dtReverse;
+                extrusionDefinition.SetSideParam(false, (short)End_Type.etBlind, height);
             }
             if (type == true)
             {
-                // Устанавливаем тип направления выдавливания
-                extrusionDefinition.directionType = (short)Direction_Type.dtNormal; //Прямое направление
-                // Устанавливаем параметры выдавливания
-                extrusionDefinition.SetSideParam(true, // Прямое направление
-                                          (short)End_Type.etBlind, // Строго на глубину
-                                          height); // Расстояние выдавливания
+                extrusionDefinition.directionType = (short)Direction_Type.dtNormal;
+                extrusionDefinition.SetSideParam(true, (short)End_Type.etBlind, height);
             }
-            //Эскиз операции выдавливания
             extrusionDefinition.SetSketch(sketch);
-            // Создаем операцию выдавливания
             entityExtrusion.Create();
         }
     }

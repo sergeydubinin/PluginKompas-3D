@@ -91,6 +91,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BushingParametrs\BushingParametrs.csproj">
+      <Project>{20bd943e-1d70-4a93-9b20-fc8ba0d89029}</Project>
+      <Name>BushingParametrs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BushingPlugin\BushingPlugin.csproj">
       <Project>{779a28fc-1422-4f10-b01b-8d80e1ecde79}</Project>
       <Name>BushingPlugin</Name>
