@@ -45,6 +45,7 @@ namespace BushingPluginUI
             _bindTextBoxToParametr.Add(ParametersType.NumberHoles, NumberHolesTextBox);
             _bindTextBoxToParametr.Add(ParametersType.HolesDiametr, HolesDiametrTextBox);
             _bindTextBoxToParametr.Add(ParametersType.LocationDiametr, LocationDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.EngravingText, EngravingTextBox);
 
             TotalLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
             TopLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
@@ -74,8 +75,17 @@ namespace BushingPluginUI
             double newHolesDiametr = double.Parse(HolesDiametrTextBox.Text);
             double newLocationDiametr = double.Parse(LocationDiametrTextBox.Text);
 
-            bushing = new Bushing(newTotalLength, newTopLength, newTopDiametr, newOuterDiametr, newInnerDiametr, newNumberHoles,
-                newHolesDiametr, newLocationDiametr);
+            if (EngravingCheckBox.Checked)
+            {
+                string newEngravingText = Convert.ToString(EngravingTextBox.Text);
+                bushing = new Bushing(newTotalLength, newTopLength, newTopDiametr, newOuterDiametr, newInnerDiametr, newNumberHoles,
+                    newHolesDiametr, newLocationDiametr, newEngravingText);
+            }
+            else
+            {
+                bushing = new Bushing(newTotalLength, newTopLength, newTopDiametr, newOuterDiametr, newInnerDiametr, newNumberHoles,
+                    newHolesDiametr, newLocationDiametr);
+            }
 
             if (bushing._listError.Count > 0)
             {
@@ -85,6 +95,24 @@ namespace BushingPluginUI
             {               
                 _kompasWrapper.StartKompas();
                 _kompasWrapper.BuildBushing(bushing);                
+            }
+        }
+
+        /// <summary>
+        /// Доступность поля для ввода текста гравировки, в зависимости от
+        /// состояния checkbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EngravingCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EngravingCheckBox.Checked)
+            {
+                EngravingTextBox.ReadOnly = false;
+            }
+            else
+            {
+                EngravingTextBox.ReadOnly = true;
             }
         }
 
@@ -110,7 +138,7 @@ namespace BushingPluginUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void IsNumberPressed(object sender, KeyPressEventArgs e)
+        private void IsNumberPressed(object sender, KeyPressEventArgs e)
         {
             if (!(Char.IsControl(e.KeyChar))
                 && !(Char.IsDigit(e.KeyChar))
@@ -126,7 +154,7 @@ namespace BushingPluginUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void IsNumberOrDotPressed(object sender, KeyPressEventArgs e)
+        private void IsNumberOrDotPressed(object sender, KeyPressEventArgs e)
         {
             if (!(Char.IsControl(e.KeyChar))
                 && !(Char.IsDigit(e.KeyChar))
@@ -159,13 +187,11 @@ namespace BushingPluginUI
             string message = "";
             foreach (KeyValuePair<ParametersType, string> keyValue in listError)
             {
-
                 if (_bindTextBoxToParametr.TryGetValue(keyValue.Key, out TextBox textBox))
                 {
                     textBox.BackColor = Color.LightSalmon;
                     message += "*" + keyValue.Value + "\n" + "\n";
                 }
-
             }
             MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

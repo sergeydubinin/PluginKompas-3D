@@ -168,6 +168,26 @@ namespace BushingPlugin.UnitTests
             Assert.AreEqual(bushing._listError, listError);
         }
 
+        [TestCase(TestName = "Негативный: Текст гравировки более 15 символов")]
+        public void SetEngravingTextMore_NegativeTest()
+        {
+            Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
+            listError.Add(ParametersType.EngravingText, "Значение параметра введено некорректно: " +
+                "текст гравировки не может быть более 15 символов");
+            Bushing bushing = new Bushing(20, 5, 55, 35, 20, 2, 4, 44, "ТекстТекстТекстТекст");
+            Assert.AreEqual(bushing._listError, listError);
+        }
+
+        [TestCase(TestName = "Негативный: Не введен текст гравировки")]
+        public void SetEngravingTextNull_NegativeTest()
+        {
+            Dictionary<ParametersType, string> listError = new Dictionary<ParametersType, string>();
+            listError.Add(ParametersType.EngravingText, "Значение параметра введено некорректно: " +
+                "не введен текст гравировки");
+            Bushing bushing = new Bushing(20, 5, 55, 35, 20, 2, 4, 44, "");
+            Assert.AreEqual(bushing._listError, listError);
+        }
+
         [TestCase(20, TestName = "Позитивный: Получение длины всей втулки")]
         [Test]
         public void TestTotalLengthGet(double value)
@@ -230,6 +250,22 @@ namespace BushingPlugin.UnitTests
         {
             Bushing bushing = new Bushing(20, 5, 55, 35, 20, 2, 4, 44);
             Assert.AreEqual(value, bushing.LocationDiametr);
+        }
+
+        [TestCase("ГОСТ", TestName = "Позитивный: Получение текста гравировки")]
+        [Test]
+        public void TestEngravingTextGet(string value)
+        {
+            Bushing bushing = new Bushing(20, 5, 55, 35, 20, 2, 4, 44, "ГОСТ");
+            Assert.AreEqual(value, bushing.EngravingText);
+        }
+
+        [TestCase(true, TestName = "Позитивный: Получение наличия гравировки")]
+        [Test]
+        public void TestPresenceEngravingGet(bool value)
+        {
+            Bushing bushing = new Bushing(20, 5, 55, 35, 20, 2, 4, 44, "ГОСТ");
+            Assert.AreEqual(value, bushing.PresenceEngraving);
         }
     }
 }

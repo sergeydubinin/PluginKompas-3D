@@ -50,6 +50,11 @@ namespace BushingParametrs
         /// <summary>
         /// Диаметр расположения отверстий
         /// </summary>
-        LocationDiametr
+        LocationDiametr,
+
+        /// <summary>
+        /// Текст гравировки
+        /// </summary>
+        EngravingText
     }
 }

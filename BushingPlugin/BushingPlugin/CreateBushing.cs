@@ -41,17 +41,22 @@ namespace BushingPlugin
             double radiusCap = bushing.TopDiametr / 2;
             double heightCap = bushing.TopLength;
             double locationRadius = bushing.LocationDiametr / 2;
-            double heightArray = bushing.TotalLength - bushing.TopLength;
             double radiusArray = bushing.HolesDiametr / 2;
             int numberHoles = bushing.NumberHoles;
             double radiusLeg = bushing.OuterDiametr / 2;
             double heightLeg = bushing.TotalLength - bushing.TopLength;
             double radiusHole = bushing.InnerDiametr / 2;
+            string engravingText = bushing.EngravingText;
 
             CreateCap(radiusCap, heightCap);
-            CreateArray(locationRadius, radiusArray, heightArray, numberHoles);
+            CreateArray(locationRadius, radiusArray, heightCap, numberHoles);
             CreateLeg(radiusLeg, heightLeg);
             CreateHole(radiusHole, heightCap, heightLeg);
+
+            if (bushing.PresenceEngraving)
+            {
+                CreateEngraving(heightLeg, radiusLeg, radiusHole, engravingText);
+            }
         }
 
         /// <summary>
@@ -91,13 +96,7 @@ namespace BushingPlugin
             var document = (ksDocument3D)_kompas.ActiveDocument3D();
             var part = (ksPart)document.GetPart((short)Part_Type.pTop_Part);
             ksEntity entitySketch = DrawCircle(part, radius);
-            ksEntity entityCutExtrusion = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
-            ksCutExtrusionDefinition cutExtrusionDefinition = (ksCutExtrusionDefinition)entityCutExtrusion.GetDefinition();
-            cutExtrusionDefinition.directionType = (short)Direction_Type.dtBoth;
-            cutExtrusionDefinition.SetSideParam(true, (short)End_Type.etBlind, topHeight);
-            cutExtrusionDefinition.SetSideParam(false, (short)End_Type.etBlind, bottomHeight);
-            cutExtrusionDefinition.SetSketch(entitySketch);
-            entityCutExtrusion.Create();
+            CutExtrusion(part, entitySketch, topHeight, bottomHeight, true);
         }
 
         /// <summary>
@@ -111,8 +110,8 @@ namespace BushingPlugin
         {
             var document = (ksDocument3D)_kompas.ActiveDocument3D();
             var part = (ksPart)document.GetPart((short)Part_Type.pTop_Part);
-            const int xc = 0;
-            const int yc = 0;
+            const int coordinateX = 0;
+            const int coordinateY = 0;
             const int styleLineBase = 1;
             const int styleLineAuxiliary = 6;
             const int stepCopy = 360;
@@ -123,8 +122,8 @@ namespace BushingPlugin
             sketchDefinition.SetPlane(basePlane);
             entitySketch.Create();
             ksDocument2D sketchEdit = (ksDocument2D)sketchDefinition.BeginEdit();
-            sketchEdit.ksCircle(xc, yc, coordinate, styleLineAuxiliary);
-            sketchEdit.ksCircle(coordinate, yc, radius, styleLineBase);
+            sketchEdit.ksCircle(coordinateX, coordinateY, coordinate, styleLineAuxiliary);
+            sketchEdit.ksCircle(coordinate, coordinateY, radius, styleLineBase);
             sketchDefinition.EndEdit();
 
             ksEntity entityCutExtrusion = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
@@ -152,8 +151,8 @@ namespace BushingPlugin
         /// <returns></returns>
         private ksEntity DrawCircle(ksPart part, double radius)
         {
-            const int xc = 0;
-            const int yc = 0;
+            const int coordinateX = 0;
+            const int coordinateY = 0;
             const int styleLine = 1;
 
             ksEntity entitySketch = (ksEntity)part.NewEntity((short)Obj3dType.o3d_sketch);
@@ -162,7 +161,7 @@ namespace BushingPlugin
             sketchDefinition.SetPlane(basePlane);
             entitySketch.Create();
             ksDocument2D sketchEdit = (ksDocument2D)sketchDefinition.BeginEdit();
-            sketchEdit.ksCircle(xc, yc, radius, styleLine);
+            sketchEdit.ksCircle(coordinateX, coordinateY, radius, styleLine);
             sketchDefinition.EndEdit();
 
             return entitySketch;
@@ -191,6 +190,75 @@ namespace BushingPlugin
             }
             extrusionDefinition.SetSketch(sketch);
             entityExtrusion.Create();
+        }
+
+        /// <summary>
+        /// Создание гравировки текста на детали
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="outerRadius"></param>
+        /// <param name="innerRadius"></param>
+        private void CreateEngraving(double length, double outerRadius, double innerRadius, string engravingText)
+        {
+            var document = (ksDocument3D)_kompas.ActiveDocument3D();
+            var part = (ksPart)document.GetPart((short)Part_Type.pTop_Part);
+            double coordinateY = ((outerRadius + innerRadius) / 2) - 1.5;
+            const int coordinateX = 0;
+            const int angle = 0;
+            const double characterHeight = 2;
+            const int textNarrowing = 1;
+            const int bitVector = 0;
+            const int align = 1;
+            const double topHeight = 1;
+            const double bottomHeight = 0;
+
+            ksEntity entityPlaneOffset = (ksEntity)part.NewEntity((short)Obj3dType.o3d_planeOffset);
+            ksEntity entityPlaneXOY = (ksEntity)part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
+            ksPlaneOffsetDefinition planeOffsetDefinition = (ksPlaneOffsetDefinition)entityPlaneOffset.GetDefinition();
+            planeOffsetDefinition.SetPlane(entityPlaneXOY);
+            planeOffsetDefinition.direction = true;
+            planeOffsetDefinition.offset = length;
+            entityPlaneOffset.Create();
+
+            ksEntity entitySketch = (ksEntity)part.NewEntity((short)Obj3dType.o3d_sketch);
+            ksSketchDefinition sketchDefinition = (ksSketchDefinition)entitySketch.GetDefinition();
+            sketchDefinition.SetPlane(entityPlaneOffset);
+            entitySketch.Create();
+
+            ksDocument2D sketchEdit = (ksDocument2D)sketchDefinition.BeginEdit();
+            int text = sketchEdit.ksText(coordinateX, coordinateY, angle, characterHeight, 
+                textNarrowing, bitVector, engravingText);
+            sketchEdit.ksSetTextAlign(text, align);
+            sketchDefinition.EndEdit();
+
+            CutExtrusion(part, entitySketch, topHeight, bottomHeight, false);
+        }
+
+        /// <summary>
+        /// Метод, выполняющий вырезание выдавливанием по эскизу
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="sketch"></param>
+        /// <param name="topHeight"></param>
+        /// <param name="bottomHeight"></param>
+        /// <param name="type"></param>
+        private void CutExtrusion(ksPart part, ksEntity sketch, double topHeight, double bottomHeight, bool type)
+        {
+            ksEntity entityCutExtrusion = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
+            ksCutExtrusionDefinition cutExtrusionDefinition = (ksCutExtrusionDefinition)entityCutExtrusion.GetDefinition();
+            if (type == false)
+            {
+                cutExtrusionDefinition.directionType = (short)Direction_Type.dtNormal;
+                cutExtrusionDefinition.SetSideParam(true, (short)End_Type.etBlind, topHeight);
+            }
+            if (type == true)
+            {
+                cutExtrusionDefinition.directionType = (short)Direction_Type.dtBoth;
+                cutExtrusionDefinition.SetSideParam(true, (short)End_Type.etBlind, topHeight);
+                cutExtrusionDefinition.SetSideParam(false, (short)End_Type.etBlind, bottomHeight);
+            }
+            cutExtrusionDefinition.SetSketch(sketch);
+            entityCutExtrusion.Create();
         }
     }
 }

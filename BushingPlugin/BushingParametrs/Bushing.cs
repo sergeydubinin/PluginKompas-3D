@@ -19,6 +19,8 @@ namespace BushingParametrs
         private int _numberHoles;
         private double _holesDiametr;
         private double _locationDiametr;
+        private string _engravingText;
+        private readonly bool _presenceEngraving = false;
 
         /// <summary>
         /// Длина всей втулки
@@ -230,7 +232,41 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Конструктор
+        /// Текст гравировки
+        /// </summary>
+        public string EngravingText
+        {
+            get
+            {
+                return _engravingText;
+            }
+
+            set
+            {
+                if (value.Length > 15)
+                {
+                    _listError.Add(ParametersType.EngravingText, "Значение параметра введено некорректно: " +
+                        "текст гравировки не может быть более 15 символов");
+                }
+                else if (string.IsNullOrWhiteSpace(value))
+                {
+                    _listError.Add(ParametersType.EngravingText, "Значение параметра введено некорректно: " +
+                        "не введен текст гравировки");
+                }
+                _engravingText = value;
+            }
+        }
+
+        /// <summary>
+        /// Наличие гравировки на втулке
+        /// </summary>
+        public bool PresenceEngraving
+        {
+            get => _presenceEngraving;
+        }
+
+        /// <summary>
+        /// Конструктор без гравировки
         /// </summary>
         /// <param name="totalLength"></param>
         /// <param name="topLength"></param>
@@ -254,6 +290,37 @@ namespace BushingParametrs
             NumberHoles = numberHoles;
             HolesDiametr = holesDiametr;
             LocationDiametr = locationDiametr;
+            _presenceEngraving = false;
+        }
+
+        /// <summary>
+        /// Конструктор с гравировкой
+        /// </summary>
+        /// <param name="totalLength"></param>
+        /// <param name="topLength"></param>
+        /// <param name="topDiametr"></param>
+        /// <param name="outerDiametr"></param>
+        /// <param name="innerDiametr"></param>
+        /// <param name="numberHoles"></param>
+        /// <param name="holesDiametr"></param>
+        /// <param name="locationDiametr"></param>
+        /// <param name="engravingText"></param>
+        public Bushing(double totalLength, double topLength, double topDiametr, double outerDiametr, double innerDiametr,
+            int numberHoles, double holesDiametr, double locationDiametr, string engravingText)
+        {
+            _listError = new Dictionary<ParametersType, string>();
+            _listError.Clear();
+
+            TotalLength = totalLength;
+            TopLength = topLength;
+            TopDiametr = topDiametr;
+            OuterDiametr = outerDiametr;
+            InnerDiametr = innerDiametr;
+            NumberHoles = numberHoles;
+            HolesDiametr = holesDiametr;
+            LocationDiametr = locationDiametr;
+            EngravingText = engravingText;
+            _presenceEngraving = true;
         }
 
         /// <summary>

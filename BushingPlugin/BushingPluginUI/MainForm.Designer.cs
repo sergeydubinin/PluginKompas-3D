@@ -54,7 +54,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BuildButton = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.EngravingTextBox = new System.Windows.Forms.TextBox();
+            this.EngravingCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -85,7 +90,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(451, 288);
+            this.groupBox1.Size = new System.Drawing.Size(451, 290);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Параметры втулки";
@@ -308,7 +313,7 @@
             // 
             // BuildButton
             // 
-            this.BuildButton.Location = new System.Drawing.Point(163, 306);
+            this.BuildButton.Location = new System.Drawing.Point(159, 422);
             this.BuildButton.Name = "BuildButton";
             this.BuildButton.Size = new System.Drawing.Size(155, 34);
             this.BuildButton.TabIndex = 24;
@@ -316,20 +321,64 @@
             this.BuildButton.UseVisualStyleBackColor = true;
             this.BuildButton.Click += new System.EventHandler(this.BuildButton_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.EngravingTextBox);
+            this.groupBox2.Controls.Add(this.EngravingCheckBox);
+            this.groupBox2.Location = new System.Drawing.Point(12, 308);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(451, 108);
+            this.groupBox2.TabIndex = 25;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Гравировка текста на втулке";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(3, 74);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(128, 17);
+            this.label17.TabIndex = 25;
+            this.label17.Text = "Текст гравировки:";
+            // 
+            // EngravingTextBox
+            // 
+            this.EngravingTextBox.Location = new System.Drawing.Point(147, 71);
+            this.EngravingTextBox.Name = "EngravingTextBox";
+            this.EngravingTextBox.ReadOnly = true;
+            this.EngravingTextBox.Size = new System.Drawing.Size(289, 22);
+            this.EngravingTextBox.TabIndex = 24;
+            this.EngravingTextBox.TextChanged += new System.EventHandler(this.ResetBackColor);
+            // 
+            // EngravingCheckBox
+            // 
+            this.EngravingCheckBox.AutoSize = true;
+            this.EngravingCheckBox.Location = new System.Drawing.Point(6, 30);
+            this.EngravingCheckBox.Name = "EngravingCheckBox";
+            this.EngravingCheckBox.Size = new System.Drawing.Size(296, 21);
+            this.EngravingCheckBox.TabIndex = 0;
+            this.EngravingCheckBox.Text = "Выполнить гравировку текста на втулке";
+            this.EngravingCheckBox.UseVisualStyleBackColor = true;
+            this.EngravingCheckBox.CheckedChanged += new System.EventHandler(this.EngravingCheckBox_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(475, 353);
+            this.ClientSize = new System.Drawing.Size(475, 468);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.BuildButton);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximumSize = new System.Drawing.Size(493, 400);
-            this.MinimumSize = new System.Drawing.Size(493, 400);
+            this.MaximumSize = new System.Drawing.Size(493, 515);
+            this.MinimumSize = new System.Drawing.Size(493, 515);
             this.Name = "MainForm";
             this.Text = "Втулка амортизаторная";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -362,6 +411,10 @@
         private System.Windows.Forms.TextBox LocationDiametrTextBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button BuildButton;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox EngravingTextBox;
+        private System.Windows.Forms.CheckBox EngravingCheckBox;
     }
 }
 
