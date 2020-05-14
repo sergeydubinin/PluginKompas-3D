@@ -36,8 +36,10 @@ namespace BushingPlugin
 
                 if (_kompas == null)
                 {
-                    Type kompasType = Type.GetTypeFromProgID("KOMPAS.Application.5");
-                    _kompas = (KompasObject)Activator.CreateInstance(kompasType);
+                    Type kompasType = Type.GetTypeFromProgID
+                        ("KOMPAS.Application.5");
+                    _kompas = (KompasObject)Activator.CreateInstance
+                        (kompasType);
 
                     StartKompas();
 

@@ -35,26 +35,44 @@ namespace BushingPluginUI
             InitializeComponent();
             _kompasWrapper = new KompasWrapper();
 
-            _bindTextBoxToParametr = new Dictionary<ParametersType, TextBox>();
+            _bindTextBoxToParametr = new Dictionary<ParametersType, 
+                TextBox>();
             _bindTextBoxToParametr.Clear();
-            _bindTextBoxToParametr.Add(ParametersType.TotalLength, TotalLengthTextBox);
-            _bindTextBoxToParametr.Add(ParametersType.TopLength, TopLengthTextBox);
-            _bindTextBoxToParametr.Add(ParametersType.TopDiametr, TopDiametrTextBox);
-            _bindTextBoxToParametr.Add(ParametersType.OuterDiametr, OuterDiametrTextBox);
-            _bindTextBoxToParametr.Add(ParametersType.InnerDiametr, InnerDiametrTextBox);
-            _bindTextBoxToParametr.Add(ParametersType.NumberHoles, NumberHolesTextBox);
-            _bindTextBoxToParametr.Add(ParametersType.HolesDiametr, HolesDiametrTextBox);
-            _bindTextBoxToParametr.Add(ParametersType.LocationDiametr, LocationDiametrTextBox);
-            _bindTextBoxToParametr.Add(ParametersType.EngravingText, EngravingTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.TotalLength,
+                TotalLengthTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.TopLength,
+                TopLengthTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.TopDiametr,
+                TopDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.OuterDiametr,
+                OuterDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.InnerDiametr,
+                InnerDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.NumberHoles,
+                NumberHolesTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.HolesDiametr,
+                HolesDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.LocationDiametr,
+                LocationDiametrTextBox);
+            _bindTextBoxToParametr.Add(ParametersType.EngravingText,
+                EngravingTextBox);
 
-            TotalLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            TopLengthTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            TopDiametrTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            OuterDiametrTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            InnerDiametrTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            NumberHolesTextBox.KeyPress += new KeyPressEventHandler(IsNumberPressed);
-            HolesDiametrTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
-            LocationDiametrTextBox.KeyPress += new KeyPressEventHandler(IsNumberOrDotPressed);
+            TotalLengthTextBox.KeyPress += new KeyPressEventHandler
+                (IsNumberOrDotPressed);
+            TopLengthTextBox.KeyPress += new KeyPressEventHandler
+                (IsNumberOrDotPressed);
+            TopDiametrTextBox.KeyPress += new KeyPressEventHandler
+                (IsNumberOrDotPressed);
+            OuterDiametrTextBox.KeyPress += new KeyPressEventHandler
+                (IsNumberOrDotPressed);
+            InnerDiametrTextBox.KeyPress += new KeyPressEventHandler
+                (IsNumberOrDotPressed);
+            NumberHolesTextBox.KeyPress += new KeyPressEventHandler
+                (IsNumberPressed);
+            HolesDiametrTextBox.KeyPress += new KeyPressEventHandler
+                (IsNumberOrDotPressed);
+            LocationDiametrTextBox.KeyPress += new KeyPressEventHandler
+                (IsNumberOrDotPressed);
         }
 
         /// <summary>
@@ -64,37 +82,48 @@ namespace BushingPluginUI
         /// <param name="e"></param>
         private void BuildButton_Click(object sender, EventArgs e)
         {
-            Bushing bushing = null;
-
-            double newTotalLength = double.Parse(TotalLengthTextBox.Text);
-            double newTopLength = double.Parse(TopLengthTextBox.Text);
-            double newTopDiametr = double.Parse(TopDiametrTextBox.Text);
-            double newOuterDiametr = double.Parse(OuterDiametrTextBox.Text);
-            double newInnerDiametr = double.Parse(InnerDiametrTextBox.Text);
-            int newNumberHoles = int.Parse(NumberHolesTextBox.Text);
-            double newHolesDiametr = double.Parse(HolesDiametrTextBox.Text);
-            double newLocationDiametr = double.Parse(LocationDiametrTextBox.Text);
-
-            if (EngravingCheckBox.Checked)
+            try
             {
-                string newEngravingText = Convert.ToString(EngravingTextBox.Text);
-                bushing = new Bushing(newTotalLength, newTopLength, newTopDiametr, newOuterDiametr, newInnerDiametr, newNumberHoles,
-                    newHolesDiametr, newLocationDiametr, newEngravingText);
-            }
-            else
-            {
-                bushing = new Bushing(newTotalLength, newTopLength, newTopDiametr, newOuterDiametr, newInnerDiametr, newNumberHoles,
-                    newHolesDiametr, newLocationDiametr);
-            }
+                Bushing bushing = null;
 
-            if (bushing._listError.Count > 0)
-            {
-                ShowError(bushing._listError);
+                double newTotalLength = double.Parse(TotalLengthTextBox.Text);
+                double newTopLength = double.Parse(TopLengthTextBox.Text);
+                double newTopDiametr = double.Parse(TopDiametrTextBox.Text);
+                double newOuterDiametr = double.Parse(OuterDiametrTextBox.Text);
+                double newInnerDiametr = double.Parse(InnerDiametrTextBox.Text);
+                int newNumberHoles = int.Parse(NumberHolesTextBox.Text);
+                double newHolesDiametr = double.Parse(HolesDiametrTextBox.Text);
+                double newLocationDiametr = double.Parse(LocationDiametrTextBox.Text);
+
+                if (EngravingCheckBox.Checked)
+                {
+                    string newEngravingText = Convert.ToString(EngravingTextBox.Text);
+                    bushing = new Bushing(newTotalLength, newTopLength,
+                        newTopDiametr, newOuterDiametr, newInnerDiametr,
+                        newNumberHoles, newHolesDiametr, newLocationDiametr,
+                        newEngravingText);
+                }
+                else
+                {
+                    bushing = new Bushing(newTotalLength, newTopLength,
+                        newTopDiametr, newOuterDiametr, newInnerDiametr,
+                        newNumberHoles, newHolesDiametr, newLocationDiametr);
+                }
+
+                if (bushing._listError.Count > 0)
+                {
+                    ShowError(bushing._listError);
+                }
+                else
+                {
+                    _kompasWrapper.StartKompas();
+                    _kompasWrapper.BuildBushing(bushing);
+                }
             }
-            else
-            {               
-                _kompasWrapper.StartKompas();
-                _kompasWrapper.BuildBushing(bushing);                
+            catch
+            {
+                MessageBox.Show("Невозможно построить деталь!", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -104,7 +133,8 @@ namespace BushingPluginUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void EngravingCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void EngravingCheckBox_CheckedChanged(object sender,
+            EventArgs e)
         {
             if (EngravingCheckBox.Checked)
             {
@@ -128,7 +158,8 @@ namespace BushingPluginUI
                 || textbox.Text == ".")
             {
                 textbox.BackColor = Color.LightSalmon;
-                MessageBox.Show("Ошибка в значении параметра!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка в значении параметра!", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 textbox.Focus();
             }
         }
@@ -149,8 +180,8 @@ namespace BushingPluginUI
         }
 
         /// <summary>
-        /// Событие, проверяющее, чтобы textbox содержал только цифры и максимум
-        /// один знак разделения (точку)
+        /// Событие, проверяющее, чтобы textbox содержал только цифры и
+        /// vаксимум один знак разделения (точку)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -178,22 +209,25 @@ namespace BushingPluginUI
         }
 
         /// <summary>
-        /// Метод, выводящий ошибку на экран и подсвечивающий textbox, связанный
-        /// с данной ошибкой
+        /// Метод, выводящий ошибку на экран и подсвечивающий textbox,
+        /// связанный с данной ошибкой
         /// </summary>
-        /// <param name="listError"></param>
+        /// <param name="listError">Список выявленных ошибок</param>
         private void ShowError(Dictionary<ParametersType, string> listError)
         {
             string message = "";
             foreach (KeyValuePair<ParametersType, string> keyValue in listError)
             {
-                if (_bindTextBoxToParametr.TryGetValue(keyValue.Key, out TextBox textBox))
+                if (_bindTextBoxToParametr.TryGetValue(keyValue.Key, out TextBox 
+                    textBox))
                 {
                     textBox.BackColor = Color.LightSalmon;
-                    message += "*" + keyValue.Value + "\n" + "\n";
+                    message += "*Значение параметра введено некорректно: " + 
+                        keyValue.Value + "\n" + "\n";
                 }
             }
-            MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
     }
 }

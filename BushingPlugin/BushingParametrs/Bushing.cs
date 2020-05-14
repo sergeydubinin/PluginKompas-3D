@@ -34,16 +34,14 @@ namespace BushingParametrs
 
             set
             {
-                if (value < 20)
-                {
-                    _listError.Add(ParametersType.TotalLength, "Значение параметра введено некорректно: " +
-                        "длина всей втулки не может быть менее 20 мм.");
-                }
-                else if (value > 100)
-                {
-                    _listError.Add(ParametersType.TotalLength, "Значение параметра введено некорректно: " +
-                        "длина всей втулки не может быть более 100 мм.");
-                }
+                const int minTotalLength = 20;
+                const int maxTotalLength = 100;
+                string messageMin = "длина всей втулки не может быть " +
+                    "менее 20 мм.";
+                string messageMax = "длина всей втулки не может быть " +
+                    "более 100 мм.";
+                ValidationParameter(value, minTotalLength, maxTotalLength, 
+                    ParametersType.TotalLength, messageMin, messageMax);
                 _totalLength = value;
             }
         }
@@ -60,16 +58,14 @@ namespace BushingParametrs
 
             set
             {
-                if (value < 5)
-                {
-                    _listError.Add(ParametersType.TopLength, "Значение параметра введено некорректно: " +
-                        "длина верхней части втулки не может быть менее 5 мм.");
-                }
-                else if (value > ((TotalLength) / 2))
-                {
-                    _listError.Add(ParametersType.TopLength, "Значение параметра введено некорректно: " +
-                        "длина верхней части втулки не может быть более 1/2 длины всей втулки мм.");
-                }
+                const int minTopLength = 5;
+                double maxTopLength = ((TotalLength) / 2);
+                string messageMin = "длина верхней части втулки не может " +
+                    "быть менее 5 мм.";
+                string messageMax = "длина верхней части втулки не может " +
+                    "быть более 1/2 длины всей втулки мм.";
+                ValidationParameter(value, minTopLength, maxTopLength, 
+                    ParametersType.TopLength, messageMin, messageMax);
                 _topLength = value;
             }
         }
@@ -86,16 +82,14 @@ namespace BushingParametrs
 
             set
             {
-                if (value < 55)
-                {
-                    _listError.Add(ParametersType.TopDiametr, "Значение параметра введено некорректно: " +
-                        "диамтер верхней части втулки не может быть менее 55 мм.");
-                }
-                else if (value > 120)
-                {
-                    _listError.Add(ParametersType.TopDiametr, "Значение параметра введено некорректно: " +
-                        "диамтер верхней части втулки не может быть более 120 мм.");
-                }
+                const int minTopDiametr = 55;
+                const int maxTopDiametr = 120;
+                string messageMin = "диаметр верхней части втулки не может " +
+                    "быть менее 55 мм.";
+                string messageMax = "диаметр верхней части втулки не может " +
+                    "быть более 120 мм.";
+                ValidationParameter(value, minTopDiametr, maxTopDiametr, 
+                    ParametersType.TopDiametr, messageMin, messageMax);
                 _topDiametr = value;
             }
         }
@@ -113,16 +107,14 @@ namespace BushingParametrs
 
             set
             {
-                if (value < 35)
-                {
-                    _listError.Add(ParametersType.OuterDiametr, "Значение параметра введено некорректно: " +
-                        "внешний диамтер втулки не может быть менее 35 мм.");
-                }
-                else if (value > ((2 * (TopDiametr)) / 3))
-                {
-                    _listError.Add(ParametersType.OuterDiametr, "Значение параметра введено некорректно: " +
-                        "внешний диамтер втулки не может быть более 2/3 диаметра верхней части втулки мм.");
-                }
+                const int minOuterDiametr = 35;
+                double maxOuterDiametr = ((2 * (TopDiametr)) / 3);
+                string messageMin = "внешний диаметр втулки не может быть " +
+                    "менее 35 мм.";
+                string messageMax = "внешний диаметр втулки не может быть " +
+                    "более 2/3 диаметра верхней части втулки мм.";
+                ValidationParameter(value, minOuterDiametr, maxOuterDiametr, 
+                    ParametersType.OuterDiametr, messageMin, messageMax);
                 _outerDiametr = value;
             }
         }
@@ -139,16 +131,14 @@ namespace BushingParametrs
 
             set
             {
-                if (value < 20)
-                {
-                    _listError.Add(ParametersType.InnerDiametr, "Значение параметра введено некорректно: " +
-                        "внутренний диамтер втулки не может быть менее 20 мм.");
-                }
-                else if (value > ((2 * (OuterDiametr)) / 3))
-                {
-                    _listError.Add(ParametersType.InnerDiametr, "Значение параметра введено некорректно: " +
-                        "внутренний диамтер втулки не может быть более 2/3 внешнего диаметра втулки мм.");
-                }
+                const int minInnerDiametr = 20;
+                double maxInnerDiametr = ((2 * (OuterDiametr)) / 3);
+                string messageMin = "внутренний диаметр втулки не может " +
+                    "быть менее 20 мм.";
+                string messageMax = "внутренний диаметр втулки не может " +
+                    "быть более 2/3 внешнего диаметра втулки мм.";
+                ValidationParameter(value, minInnerDiametr, maxInnerDiametr, 
+                    ParametersType.InnerDiametr, messageMin, messageMax);
                 _innerDiametr = value;
             }
         }
@@ -165,16 +155,14 @@ namespace BushingParametrs
 
             set
             {
-                if (value < 2)
-                {
-                    _listError.Add(ParametersType.NumberHoles, "Значение параметра введено некорректно: " +
-                        "количество отверстий не может быть менее 2 шт.");
-                }
-                else if (value > 6)
-                {
-                    _listError.Add(ParametersType.NumberHoles, "Значение параметра введено некорректно: " +
-                        "количество отверстий не может быть более 6 шт.");
-                }
+                const int minNumberHoles = 2;
+                const int maxNumberHoles = 6;
+                string messageMin = "количество отверстий не может быть " +
+                    "менее 2 шт.";
+                string messageMax = "количество отверстий не может быть " +
+                    "более 6 шт.";
+                ValidationParameter(value, minNumberHoles, maxNumberHoles, 
+                    ParametersType.NumberHoles, messageMin, messageMax);
                 _numberHoles = value;
             }
         }
@@ -191,16 +179,14 @@ namespace BushingParametrs
 
             set
             {
-                if (value < 4)
-                {
-                    _listError.Add(ParametersType.HolesDiametr, "Значение параметра введено некорректно: " +
-                        "диамтер отверстий не может быть менее 4 мм.");
-                }
-                else if (value > ((InnerDiametr) / 4))
-                {
-                    _listError.Add(ParametersType.HolesDiametr, "Значение параметра введено некорректно: " +
-                        "диамтер отверстий не может быть более 1/4 внутреннего диаметра втулки мм.");
-                }
+                const int minHolesDiametr = 4;
+                double maxHolesDiametr = ((InnerDiametr) / 4);
+                string messageMin = "диаметр отверстий не может быть менее " +
+                    "4 мм.";
+                string messageMax = "диаметр отверстий не может быть более " +
+                    "1/4 внутреннего диаметра втулки мм.";
+                ValidationParameter(value, minHolesDiametr, maxHolesDiametr, 
+                    ParametersType.HolesDiametr, messageMin, messageMax);
                 _holesDiametr = value;
             }
         }
@@ -217,16 +203,15 @@ namespace BushingParametrs
 
             set
             {
-                if (value < ((3 * (TopDiametr)) / 4))
-                {
-                    _listError.Add(ParametersType.LocationDiametr, "Значение параметра введено некорректно: " +
-                        "диамтер расположения отверстий не может быть менее 3/4 диаметра верхней части втулки мм.");
-                }
-                else if (value > ((4 * (TopDiametr)) / 5))
-                {
-                    _listError.Add(ParametersType.LocationDiametr, "Значение параметра введено некорректно: " +
-                        "диамтер расположения отверстий не может быть более 4/5 диаметра верхней части втулки мм.");
-                }
+                double minLocationDiametr = ((3 * (TopDiametr)) / 4);
+                double maxLocationDiametr = ((4 * (TopDiametr)) / 5);
+                string messageMin = "диаметр расположения отверстий не " +
+                    "может быть менее 3/4 диаметра верхней части втулки мм.";
+                string messageMax = "диаметр расположения отверстий не " +
+                    "может быть более 4/5 диаметра верхней части втулки мм.";
+                ValidationParameter(value, minLocationDiametr,
+                    maxLocationDiametr, ParametersType.LocationDiametr, 
+                    messageMin, messageMax);
                 _locationDiametr = value;
             }
         }
@@ -245,12 +230,12 @@ namespace BushingParametrs
             {
                 if (value.Length > 15)
                 {
-                    _listError.Add(ParametersType.EngravingText, "Значение параметра введено некорректно: " +
+                    _listError.Add(ParametersType.EngravingText, 
                         "текст гравировки не может быть более 15 символов");
                 }
                 else if (string.IsNullOrWhiteSpace(value))
                 {
-                    _listError.Add(ParametersType.EngravingText, "Значение параметра введено некорректно: " +
+                    _listError.Add(ParametersType.EngravingText, 
                         "не введен текст гравировки");
                 }
                 _engravingText = value;
@@ -266,17 +251,18 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Конструктор без гравировки
+        /// Конструктор втулки без гравировки
         /// </summary>
-        /// <param name="totalLength"></param>
-        /// <param name="topLength"></param>
-        /// <param name="topDiametr"></param>
-        /// <param name="outerDiametr"></param>
-        /// <param name="innerDiametr"></param>
-        /// <param name="numberHoles"></param>
-        /// <param name="holesDiametr"></param>
-        /// <param name="locationDiametr"></param>
-        public Bushing(double totalLength, double topLength, double topDiametr, double outerDiametr, double innerDiametr,
+        /// <param name="totalLength">Длина всей втулки</param>
+        /// <param name="topLength">Длина верхней части втулки</param>
+        /// <param name="topDiametr">Диаметр верхней части втулки</param>
+        /// <param name="outerDiametr">Внешний диаметр втулки</param>
+        /// <param name="innerDiametr">Внутренний диаметр втулки</param>
+        /// <param name="numberHoles">Количество отверстий</param>
+        /// <param name="holesDiametr">Диаметр отверстий</param>
+        /// <param name="locationDiametr">Диаметр расположения</param>
+        public Bushing(double totalLength, double topLength,
+            double topDiametr, double outerDiametr, double innerDiametr,
             int numberHoles, double holesDiametr, double locationDiametr)
         {
             _listError = new Dictionary<ParametersType, string>();
@@ -294,19 +280,21 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Конструктор с гравировкой
+        /// Конструктор втулки с гравировкой
         /// </summary>
-        /// <param name="totalLength"></param>
-        /// <param name="topLength"></param>
-        /// <param name="topDiametr"></param>
-        /// <param name="outerDiametr"></param>
-        /// <param name="innerDiametr"></param>
-        /// <param name="numberHoles"></param>
-        /// <param name="holesDiametr"></param>
-        /// <param name="locationDiametr"></param>
-        /// <param name="engravingText"></param>
-        public Bushing(double totalLength, double topLength, double topDiametr, double outerDiametr, double innerDiametr,
-            int numberHoles, double holesDiametr, double locationDiametr, string engravingText)
+        /// <param name="totalLength">Длина всей втулки</param>
+        /// <param name="topLength">Длина верхней части втулки</param>
+        /// <param name="topDiametr">Диаметр верхней части втулки</param>
+        /// <param name="outerDiametr">Внешний диаметр втулки</param>
+        /// <param name="innerDiametr">Внутренний диаметр втулки</param>
+        /// <param name="numberHoles">Количество отверстий</param>
+        /// <param name="holesDiametr">Диаметр отверстий</param>
+        /// <param name="locationDiametr">Диаметр расположения</param>
+        /// <param name="engravingText">Текст гравировки</param>
+        public Bushing(double totalLength, double topLength, 
+            double topDiametr, double outerDiametr, double innerDiametr,
+            int numberHoles, double holesDiametr, double locationDiametr,
+            string engravingText)
         {
             _listError = new Dictionary<ParametersType, string>();
             _listError.Clear();
@@ -328,5 +316,28 @@ namespace BushingParametrs
         /// ошибку при вводе данного параметра
         /// </summary>
         public Dictionary<ParametersType, string> _listError;
+
+        /// <summary>
+        /// Метод, предназначенный для валидации параметров втулки
+        /// </summary>
+        /// <param name="value">Введеное значение параметра</param>
+        /// <param name="minValue">Минимальное возможное значение</param>
+        /// <param name="maxValue">Максимальное возможное значение</param>
+        /// <param name="parametersType">Параметр</param>
+        /// <param name="messageMin">Сообщение при выходе за рамки min</param>
+        /// <param name="messageMax">Сообщение при выходе за рамки max</param>
+        private void ValidationParameter(double value, double minValue, 
+            double maxValue, ParametersType parametersType, 
+            string messageMin, string messageMax)
+        {
+            if (value < minValue)
+            {
+                _listError.Add(parametersType, messageMin);
+            }
+            else if (value > maxValue)
+            {
+                _listError.Add(parametersType, messageMax);
+            }
+        }
     }
 }
