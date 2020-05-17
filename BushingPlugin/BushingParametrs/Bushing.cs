@@ -11,58 +11,19 @@ namespace BushingParametrs
     /// </summary>
     public class Bushing
     {
-        /// <summary>
-        /// Длина всей втулки
-        /// </summary>
         private double _totalLength;
-
-        /// <summary>
-        /// Длина верхней части втулки
-        /// </summary>
         private double _topLength;
-
-        /// <summary>
-        /// Диаметр верхней части втулки
-        /// </summary>
         private double _topDiametr;
-
-        /// <summary>
-        /// Внешний диаметр втулки
-        /// </summary>
         private double _outerDiametr;
-
-        /// <summary>
-        /// Внутренний диаметр втулки
-        /// </summary>
         private double _innerDiametr;
-
-        /// <summary>
-        /// Количество отверстий
-        /// </summary>
         private int _numberHoles;
-
-        /// <summary>
-        /// Диамтер отверстий
-        /// </summary>
         private double _holesDiametr;
-
-        /// <summary>
-        /// Диамтер расположения отверстий
-        /// </summary>
         private double _locationDiametr;
-
-        /// <summary>
-        /// Текст гравировки
-        /// </summary>
         private string _engravingText;
-
-        /// <summary>
-        /// Наличие гравировки
-        /// </summary>
         private readonly bool _presenceEngraving = false;
 
         /// <summary>
-        /// Возвращает и устанавливает значение длины всей втулки
+        /// Длина всей втулки
         /// </summary>
         public double TotalLength
         {
@@ -86,7 +47,7 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Возвращает и устанавливает значение длины верхней части втулки
+        /// Длина верхней части втулки
         /// </summary>
         public double TopLength
         {
@@ -110,7 +71,7 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Возвращает и устанавливает значение диаметра верхей части втулки
+        /// Диаметр верхней части втулки
         /// </summary>
         public double TopDiametr
         {
@@ -135,7 +96,7 @@ namespace BushingParametrs
 
 
         /// <summary>
-        /// Возвращает и устанавливает значение внешнего диаметра втулки
+        /// Внешний диаметр втулки
         /// </summary>
         public double OuterDiametr
         {
@@ -159,7 +120,7 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Возвращает и устанавливает значение внутреннего диаметра втулки
+        /// Внутренний диаметр втулки
         /// </summary>
         public double InnerDiametr
         {
@@ -183,7 +144,7 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Возвращает и устанавливает количество отверстий
+        /// Количество отверстий
         /// </summary>
         public int NumberHoles
         {
@@ -207,7 +168,7 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Возвращает и устанавливает диаметр отверстий
+        /// Диаметр отверстий
         /// </summary>
         public double HolesDiametr
         {
@@ -231,7 +192,7 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Возвращает и устанавливает диаметр расположения отверстий
+        /// Диаметр расположения отверстий
         /// </summary>
         public double LocationDiametr
         {
@@ -256,7 +217,7 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Возвращает и устанавливает текст гравировки
+        /// Текст гравировки
         /// </summary>
         public string EngravingText
         {
@@ -282,7 +243,7 @@ namespace BushingParametrs
         }
 
         /// <summary>
-        /// Возвращает наличие гравировки на втулке
+        /// Наличие гравировки на втулке
         /// </summary>
         public bool PresenceEngraving
         {
